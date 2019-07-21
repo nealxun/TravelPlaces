@@ -1,2 +1,2 @@
 # Travel Places
-A map to record places have been traveled.
+A map to record places have been visited.
