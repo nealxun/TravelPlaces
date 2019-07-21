@@ -2,7 +2,9 @@
 title: "Travel Places"
 author: "Small Ni and Big Fu"
 date: "July, 2019"
-output: html_document
+output: 
+        html_document:
+                keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -17,7 +19,7 @@ library(mapview)
 ## National Parks
 
 ```{r read and process data, include=FALSE}
-df_raw <- read.csv(file = "https://raw.githubusercontent.com/nealxun/RDataScienceCoursera_Personal/gh-pages/9_DataProduct/Leaflet/travel_places_v3.csv", 
+df_raw <- read.csv(file = "https://raw.githubusercontent.com/nealxun/TravelPlaces/master/travel_places.csv", 
                    header = TRUE, stringsAsFactors = FALSE)
 
 #df_raw <- read_csv("travel_places_v3.csv")
@@ -39,8 +41,8 @@ placesPics <- df_raw$pic
 
 # customized icons
 icon_list <- iconList(
-        nature = makeIcon("https://raw.githubusercontent.com/nealxun/RDataScienceCoursera_Personal/gh-pages/9_DataProduct/Leaflet/national-park-map-icons.png", iconWidth = 24, iconHeight = 30),
-        city = makeIcon("https://raw.githubusercontent.com/nealxun/RDataScienceCoursera_Personal/gh-pages/9_DataProduct/Leaflet/city_icon.png", iconWidth = 24, iconHeight = 30))
+        nature = makeIcon("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/national-park-map-icons.png", iconWidth = 24, iconHeight = 30),
+        city = makeIcon("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/city_icon.png", iconWidth = 24, iconHeight = 30))
 
 # draw the map
 df_places %>% 
