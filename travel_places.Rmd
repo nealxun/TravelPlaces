@@ -1,7 +1,7 @@
 ---
 title: "Travel Places"
 author: "Small Ni and Big Fu"
-date: "July, 2019"
+date: "`r Sys.Date()`"
 output: 
         html_document:
                 keep_md: true
@@ -14,6 +14,7 @@ library(tidyverse)
 library(RCurl)
 library(htmltools)
 library(mapview)
+library(prettydoc)
 ```
 
 ## National Parks
