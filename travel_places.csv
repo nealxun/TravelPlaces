@@ -23,3 +23,7 @@ num,date,place,state,country,latitude,longtitude,pic,color,note,icon
 22,7/6/2019,Lassen Volcanic National Park,California,United States,40.497894,-121.419355,https://nealxun.github.io/TravelPlaces/Pictures/LassenVolcanicNationalPark.jpg,springgreen,Visited,nature
 23,7/27/2019,Golden Gate Bridge,California,United States,37.823387,-122.478489,https://nealxun.github.io/TravelPlaces/Pictures/GoldenGateBridge.jpg,steelblue,Visited,city
 24,8/4/2019,Napa Valley,California,United States,38.313062,-122.288434,https://nealxun.github.io/TravelPlaces/Pictures/NapaValley.jpg,springgreen,Visited,nature
+25,9/1/2019,Grand Canyon National Park,Arizona,United States,36.101988,-112.10732,https://nealxun.github.io/TravelPlaces/Pictures/GrandCanyonNationalPark.jpg,springgreen,Visited,nature
+26,9/2/2019,Horse Shoe Bend,Arizona,United States,36.883607,-111.519092,https://nealxun.github.io/TravelPlaces/Pictures/HorseShoeBend.jpg,springgreen,Visited,nature
+27,9/2/2019,Antelope Canyon,Arizona,United States,36.905268,-111.40509,https://nealxun.github.io/TravelPlaces/Pictures/AntelopeCanyon.jpg,springgreen,Visited,nature
+28,9/15/2019,Pinnacles National Park,California,United States,36.492062,-121.18056,https://nealxun.github.io/TravelPlaces/Pictures/PinnaclesNationalPark2.jpg,springgreen,Visited,nature
