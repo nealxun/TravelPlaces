@@ -1,7 +1,7 @@
 ---
-title: "Travel Places"
+title: "Travel Journey"
 author: "Small Ni and Big Fu"
-date: "`r Sys.Date()`"
+date: "Updated On: `r Sys.Date()`"
 output: 
         html_document:
                 keep_md: true
@@ -11,30 +11,45 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(leaflet)
 library(tidyverse)
+library(lubridate)
 library(RCurl)
 library(htmltools)
 library(mapview)
 library(prettydoc)
 ```
 
-## National Parks And Cities
+
+
 
 ```{r read and process data, include=FALSE}
-df_raw <- read.csv("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/travel_places.csv", stringsAsFactors = FALSE)
+df_raw <- read_csv("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/travel_places.csv")
 
-df_raw$date <- as.Date(df_raw$date, format = "%m/%d/%y")
+#df_raw$date <- as.Date(df_raw$date, format = "%m/%d/%y")
 
 df_places <- df_raw %>%
+        mutate(date = as.Date(date, format = "%m/%d/%y"),
+               #month = floor_date(date, unit = "months"),
+               quarter = paste0(as.character(year(date)), "Q", as.character(quarter(date)))
+               #year = floor_date(date, unit = "years")
+        ) %>% 
         mutate(info = paste(sep = "<br/>", num, date, place))
+
+# only put number label on selected places
+df_places_selected <- df_places %>% 
+        filter(num %in% c(min(df_places$num),7,19,20,21,25, max(df_places$num)))
 
 ```
 
-```{r maps, echo = FALSE, warning=FALSE, message=FALSE}
-# places information (sequence, date, place name), show when hover the mice
+
+
+### Where did we travel?
+
+```{r travel map, echo = FALSE, warning=FALSE, message=FALSE, fig.width=8, fig.asp=0.7}
+# place information (visit sequence, date, and name), show when hover the mice
 nums <- paste0("<b>", df_places$num, "</b>")
 placesInfo <- paste(sep = "<br/>", nums, df_places$date, df_places$place)
 
-# pictures link, clice the marker
+# pictures link
 placesPics <- df_raw$pic
 
 # customized icons
@@ -42,22 +57,53 @@ icon_list <- iconList(
         nature = makeIcon("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/national-park-map-icons.png", iconWidth = 24, iconHeight = 30),
         city = makeIcon("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/city_icon.png", iconWidth = 24, iconHeight = 30))
 
+
 # draw the map
 df_places %>% 
         leaflet() %>%
         addTiles() %>%
         addMarkers(clusterOptions = markerClusterOptions(),
                  lat = ~latitude, lng = ~longtitude,
-                 label = lapply(placesInfo, HTML), # multiple lines
+                 label = lapply(placesInfo, HTML), # use HTML to display multiple lines
                  popup = popupImage(placesPics),
-                 #color = ~color,
-                 icon = ~icon_list[df_places$icon]) %>%
-        # add numbers on the map
+                 #color = ~color
+                 icon = ~icon_list[df_places$icon]
+                 ) %>% 
+        # add numbers on each location
         addLabelOnlyMarkers(lat = ~latitude, lng = ~longtitude, label = ~as.character(num),
-                            labelOptions = labelOptions(noHide = TRUE, textOnly = FALSE, 
-                                                        textsize = "10px", opacity = 0.8)) %>%
+                            labelOptions = labelOptions(noHide = TRUE, textOnly = FALSE,
+                                                        textsize = "8px", opacity = 0.8),
+                            data = df_places_selected)
         # add legend, could potentially add to be visited places
-        addLegend(labels = unique(df_places$icon), col = unique(df_places$color))
+        #addLegend(labels = unique(df_places$icon), col = unique(df_places$color))
+
 ```
 
+
+### When did we travel?
+
+```{r travel date, echo = FALSE, warning=FALSE, message=FALSE}
+df <- df_places %>% 
+        group_by(quarter, icon) %>% 
+        summarise(visit_num = n())
+df_label <- df_places %>% 
+        group_by(quarter) %>% 
+        summarise(visit_num = n())
+
+ggplot(df, aes(x = quarter, y = visit_num, label = visit_num)) +
+        geom_bar(aes(fill = icon), alpha = 0.6, position = position_stack(reverse = TRUE), stat = "identity") +
+        # add label
+        geom_text(aes(x = quarter, y = visit_num, label = visit_num), size = 4, position = position_stack(vjust = 1), data = df_label) + 
+        # remove x axis label overlap
+        scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
+        # manually assign the color
+        scale_fill_manual(breaks = c("nature", "city"), values = c("darkgreen", "steelblue"), name = "Category") +
+        labs(x = "", y = "", title = "Number of Visits Over Time") +
+        theme_minimal() +
+        # remove all the grid
+        theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+              axis.text.y=element_blank(), axis.ticks.y=element_blank())
+
+
+```
 

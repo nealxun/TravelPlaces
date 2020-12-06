@@ -1,3 +1,9 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+urlcolor: blue
+---
 # Travel Places
 A map to record places have been visited.
 
