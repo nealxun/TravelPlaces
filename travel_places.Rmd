@@ -88,12 +88,16 @@ df <- df_places %>%
         summarise(visit_num = n())
 df_label <- df_places %>% 
         group_by(quarter) %>% 
-        summarise(visit_num = n())
+        summarise(visit_num = n()) %>% 
+        ungroup() %>% 
+        add_row(quarter = c("2020Q1", "2020Q2", "2020Q3"), 
+                visit_num = c(0, 0, 0))
 
 ggplot(df, aes(x = quarter, y = visit_num, label = visit_num)) +
         geom_bar(aes(fill = icon), alpha = 0.6, position = position_stack(reverse = TRUE), stat = "identity") +
         # add label
         geom_text(aes(x = quarter, y = visit_num, label = visit_num), size = 4, position = position_stack(vjust = 1), data = df_label) + 
+        annotate(geom = "text", x = "2020Q1", y = 0.5, label = "Stay at Home Order", hjust = "left", size = 3, color = "darksalmon") +
         # remove x axis label overlap
         scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
         # manually assign the color
