@@ -44,7 +44,7 @@ df_places_selected <- df_places %>%
 
 ### Where did we travel?
 
-```{r travel map, echo = FALSE, warning=FALSE, message=FALSE, fig.width=8, fig.asp=0.7}
+```{r travel map, echo = FALSE, warning=FALSE, message=FALSE}
 # place information (visit sequence, date, and name), show when hover the mice
 nums <- paste0("<b>", df_places$num, "</b>")
 placesInfo <- paste(sep = "<br/>", nums, df_places$date, df_places$place)
