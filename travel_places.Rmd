@@ -16,6 +16,7 @@ library(RCurl)
 library(htmltools)
 library(mapview)
 library(prettydoc)
+library(leafpop)
 ```
 
 ```{r read and process data, include=FALSE}
