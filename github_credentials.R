@@ -1,7 +1,7 @@
 # objective: manage git credentials through PAT
 
-install.packages("usethis")
-install.packages("gitcreds")
+# install.packages("usethis")
+# install.packages("gitcreds")
 
 library(usethis)
 library(gitcreds)
