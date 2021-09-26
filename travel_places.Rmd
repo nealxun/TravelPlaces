@@ -4,7 +4,7 @@ author: "Small Ni and Big Fu"
 date: "Updated On: `r Sys.Date()`"
 output: 
         html_document:
-                keep_md: true
+                keep_md: false
 ---
 
 ```{r setup, include=FALSE}
@@ -20,9 +20,10 @@ library(leafpop)
 ```
 
 ```{r read and process data, include=FALSE}
-df_raw <- read_csv("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/travel_places.csv")
+#df_raw <- read_csv("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/travel_places.csv")
 
-#df_raw$date <- as.Date(df_raw$date, format = "%m/%d/%y")
+# read data from input folder
+df_raw <- read_csv("./Input/travel_places.csv")
 
 df_places <- df_raw %>%
         mutate(date = as.Date(date, format = "%m/%d/%y"),
@@ -33,8 +34,15 @@ df_places <- df_raw %>%
         mutate(info = paste(sep = "<br/>", num, date, place))
 
 # only put number label on selected places
-df_places_selected <- df_places %>% 
-        filter(num %in% c(min(df_places$num),7,19,20,21,25, max(df_places$num)))
+# df_places_selected <- df_places %>% 
+#         filter(num %in% c(min(df_places$num),7,19,20,21,25, max(df_places$num)))
+
+# put number on every nth visit
+n <- 10
+ls_num <- c(1, seq(from = 10, to = nrow(df_places), by = n), nrow(df_places)) %>% 
+        unique()
+df_places_selected <- df_places %>%
+        filter(num %in% ls_num)
 
 ```
 
@@ -49,9 +57,16 @@ placesInfo <- paste(sep = "<br/>", nums, df_places$date, df_places$place)
 placesPics <- df_raw$pic
 
 # customized icons
+# icon_list <- iconList(
+#         nature = makeIcon("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/national-park-map-icons.png", 
+#                           iconWidth = 24, iconHeight = 30),
+#         city = makeIcon("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/city_icon.png", 
+#                         iconWidth = 24, iconHeight = 30))
 icon_list <- iconList(
-        nature = makeIcon("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/national-park-map-icons.png", iconWidth = 24, iconHeight = 30),
-        city = makeIcon("https://raw.githubusercontent.com/nealxun/TravelPlaces/master/city_icon.png", iconWidth = 24, iconHeight = 30))
+        nature = makeIcon("./Icons/national-park-map-icons.png", 
+                          iconWidth = 24, iconHeight = 30),
+        city = makeIcon("./Icons/city_icon.png", 
+                        iconWidth = 24, iconHeight = 30))
 
 
 # draw the map
@@ -80,7 +95,7 @@ df_places %>%
 
 ```{r travel date, echo = FALSE, warning=FALSE, message=FALSE}
 df <- df_places %>% 
-        group_by(quarter, icon) %>% 
+        group_by(quarter) %>% 
         summarise(visit_num = n())
 df_label <- df_places %>% 
         group_by(quarter) %>% 
@@ -90,19 +105,22 @@ df_label <- df_places %>%
                 visit_num = c(0, 0, 0))
 
 ggplot(df, aes(x = quarter, y = visit_num, label = visit_num)) +
-        geom_bar(aes(fill = icon), alpha = 0.6, position = position_stack(reverse = TRUE), stat = "identity") +
+        #geom_bar(aes(fill = icon), alpha = 0.6, position = position_stack(reverse = TRUE), stat = "identity") +
+        geom_bar(fill = "#669933", alpha = 0.6, stat = "identity") +
         # add label
-        geom_text(aes(x = quarter, y = visit_num, label = visit_num), size = 4, position = position_stack(vjust = 1), data = df_label) + 
-        annotate(geom = "text", x = "2020Q1", y = 0.5, label = "Stay at Home Order", hjust = "left", size = 3, color = "darksalmon") +
+        geom_text(aes(x = quarter, y = visit_num, label = visit_num), size = 4, 
+                  position = position_stack(vjust = 1.05), data = df_label) + 
+        annotate(geom = "text", x = "2020Q1", y = 0.5, label = "Stay at Home Order", 
+                 hjust = "left", size = 3, color = "darksalmon") +
         # remove x axis label overlap
         scale_x_discrete(guide = guide_axis(check.overlap = TRUE)) +
         # manually assign the color
-        scale_fill_manual(breaks = c("nature", "city"), values = c("darkgreen", "steelblue"), name = "Category") +
+        #scale_fill_manual(breaks = c("nature", "city"), values = c("darkgreen", "steelblue"), name = "Category") +
         labs(x = "", y = "", title = "Number of Visits Over Time") +
         theme_minimal() +
         # remove all the grid
         theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-              axis.text.y=element_blank(), axis.ticks.y=element_blank())
+              axis.text.y = element_blank(), axis.ticks.y = element_blank())
 
 
 ```

@@ -10,8 +10,8 @@ A map to record places have been visited.
 Link: https://nealxun.github.io/Travel_Places/travel_places.html
 
 Update Note:
-1. push pictures and updated csv file to the remote first, then push the md file and html file.
-2. to be safe, looks like each update needs at least two commits.
+1. Push pictures to the remote first (pictures need to be hosted by github).
+2. Push the output html file to the remote.
 
 How to publish html pages (view html file) on GitHub
 
