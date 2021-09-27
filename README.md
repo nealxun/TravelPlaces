@@ -7,7 +7,8 @@ urlcolor: blue
 # Travel Places
 A map to record places have been visited.
 
-Link: https://nealxun.github.io/Travel_Places/travel_places.html
+Travel places: https://nealxun.github.io/Travel_Places/travel_places.html
+National parks: https://nealxun.github.io/Travel_Places/national_parks.html
 
 Update Note:
 1. Push pictures to the remote first (pictures need to be hosted by github).
