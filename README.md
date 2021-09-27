@@ -4,18 +4,18 @@ output:
   html_document: default
 urlcolor: blue
 ---
+
 # Travel Places
 A map to record places have been visited.
 
-Travel places: https://nealxun.github.io/Travel_Places/travel_places.html
-National parks: https://nealxun.github.io/Travel_Places/national_parks.html
+### Interactive map links:
+- Travel places: https://nealxun.github.io/Travel_Places/travel_places.html
+- National parks: https://nealxun.github.io/Travel_Places/national_parks.html
 
-Update Note:
+### Update note:
 1. Push pictures to the remote first (pictures need to be hosted by github).
 2. Push the output html file to the remote.
 
-How to publish html pages (view html file) on GitHub
-
-Settings -> GitHub Pages -> Source -> select master branch -> click save
-
-Then you are able to view the rendered html file, e.g. nealxun.github.io/repo/file.
+### How to publish html pages (view html file) on GitHub
+1. Settings -> GitHub Pages -> Source -> select master branch -> click save
+2. Then you are able to view the rendered html file, e.g. nealxun.github.io/repo/file.
