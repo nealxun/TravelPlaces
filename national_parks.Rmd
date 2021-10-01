@@ -24,7 +24,8 @@ library(leafpop)
 df_raw <- read_csv("./Input/national_parks.csv")
 
 df_places <- df_raw %>%
-        mutate(#month = floor_date(date, unit = "months"),
+        mutate(date_visited = as.Date(date_visited, format = "%m/%d/%y"),
+                #month = floor_date(date, unit = "months"),
                quarter = paste0(as.character(year(date_visited)), "Q", as.character(quarter(date_visited))),
                year = as.character(year(date_visited))
         ) %>% 
@@ -85,7 +86,7 @@ df_places %>%
 ```
 
 
-### When did we travel?
+### When did we visit?
 
 ```{r travel date, echo = FALSE, warning=FALSE, message=FALSE}
 df <- df_places %>% 
