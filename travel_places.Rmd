@@ -1,7 +1,7 @@
 ---
 title: "Travel Journey"
 author: "Small Ni and Big Fu"
-date: "Updated On: `r Sys.Date()`"
+date: "Updated On: 2022-08-03"
 output: 
         html_document:
                 keep_md: false
